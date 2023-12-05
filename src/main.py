@@ -110,6 +110,7 @@ class NetworkVisualizer(tk.Tk):
             "RCA Visualizer Help\n\n"
             "Add Edges: Enter edges in the format 'A -> B' or 'A -(label)-> B' and click 'Add Edges'.\n"
             "Remove Edges: Enter edges in the same format and click 'Remove Edges'.\n"
+            "Save Graph: Click 'Save Graph' to save the current graph as a PNG image.\n"
             "Exit Fullscreen: Press the Escape key.\n\n"
             "Example Inputs:\n"
             "  A -> B (adds an edge from A to B)\n"
