@@ -48,8 +48,14 @@ class NetworkVisualizer(tk.Tk):
         input_str = self.entry.get()
         edges = input_str.split(",")
         for edge in edges:
-            a, b = edge.split("->")
-            self.G.add_edge(a.strip(), b.strip())
+            parts = edge.split("->")
+            if len(parts) == 2:
+                a, b = parts
+                label = None
+                if '-(' in a and ')' in a:
+                    a, label = a.split('-(')
+                    label = label.rstrip(')')
+                self.G.add_edge(a.strip(), b.strip(), label=label if label else '')
         self.visualize()
 
     def remove_edges(self):
@@ -67,7 +73,9 @@ class NetworkVisualizer(tk.Tk):
     def plot_graph(self):
         plt.gcf().clf()
         pos = nx.spring_layout(self.G)
-        nx.draw(self.G, pos, with_labels=True, node_color="skyblue", edge_color="gray")
+        nx.draw(self.G, pos, with_labels=True, node_color='skyblue', edge_color='gray')
+        edge_labels = nx.get_edge_attributes(self.G, 'label')
+        nx.draw_networkx_edge_labels(self.G, pos, edge_labels=edge_labels)
         return plt
 
     def visualize(self):
