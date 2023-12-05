@@ -101,9 +101,9 @@ class NetworkVisualizer(tk.Tk):
         plt = self.plot_graph()
         self.canvas = FigureCanvasTkAgg(plt.gcf(), master=self)
         self.canvas_widget = self.canvas.get_tk_widget()
-        self.canvas_widget.grid(row=2, column=0, columnspan=2)
+        self.canvas_widget.grid(row=3, column=0, columnspan=2)
         self.canvas.draw()
-        self.canvas_widget.grid(row=3, column=0, columnspan=2, sticky='nsew')
+        self.canvas_widget.grid(row=4, column=0, columnspan=2, sticky='nsew')
 
     def show_help(self):
         help_text = (
