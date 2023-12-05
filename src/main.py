@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 import networkx as nx
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -24,6 +24,7 @@ class NetworkVisualizer(tk.Tk):
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
+        self.grid_rowconfigure(3, weight=1)
 
         # Widgets
         self.label = ttk.Label(self, text="Enter edges (EX: \"A -> B, B -> C\"):")
@@ -38,11 +39,14 @@ class NetworkVisualizer(tk.Tk):
         self.remove_edges_button = ttk.Button(self, text="Remove Edges", command=self.remove_edges)
         self.remove_edges_button.grid(row=2, column=1, sticky='w')
 
+        self.help_button = ttk.Button(self, text="Help", command=self.show_help)
+        self.help_button.grid(row=3, column=0, columnspan=2)
+
     def initialize_blank_figure(self):
         self.figure = mplfig.Figure()
         self.canvas = FigureCanvasTkAgg(self.figure, self)
         self.canvas_widget = self.canvas.get_tk_widget()
-        self.canvas_widget.grid(row=3, column=0, columnspan=2, sticky='nsew')
+        self.canvas_widget.grid(row=4, column=0, columnspan=2, sticky='nsew')
 
     def add_edges(self):
         input_str = self.entry.get()
@@ -85,6 +89,18 @@ class NetworkVisualizer(tk.Tk):
         self.canvas_widget.grid(row=2, column=0, columnspan=2)
         self.canvas.draw()
         self.canvas_widget.grid(row=3, column=0, columnspan=2, sticky='nsew')
+
+    def show_help(self):
+        help_text = (
+            "RCA Visualizer Help\n\n"
+            "Add Edges: Enter edges in the format 'A -> B' or 'A -(label)-> B' and click 'Add Edges'.\n"
+            "Remove Edges: Enter edges in the same format and click 'Remove Edges'.\n"
+            "Exit Fullscreen: Press the Escape key.\n\n"
+            "Example Inputs:\n"
+            "  A -> B (adds an edge from A to B)\n"
+            "  C -(label)-> D (adds an edge from C to D with label)\n\n"
+        )
+        messagebox.showinfo("Help", help_text)
 
     def set_window_size(self, width, height):
         screen_width = self.winfo_screenwidth()
