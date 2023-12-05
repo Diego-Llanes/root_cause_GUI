@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import ttk, messagebox, filedialog
 import networkx as nx
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -17,6 +17,17 @@ class NetworkVisualizer(tk.Tk):
         self.configure_fullscreen()
         self.initialize_blank_figure()
 
+    def save_graph(self):
+        file_path = filedialog.asksaveasfilename(
+                defaultextension=".png",
+                filetypes=[
+                    ("PNG files", "*.png"),
+                    ("All Files", "*.*")
+                ]
+            )
+        if file_path:
+            plt.gcf().savefig(file_path)
+
     def create_widgets(self):
         # Configure grid expansion
         self.grid_columnconfigure(0, weight=1)
@@ -25,6 +36,7 @@ class NetworkVisualizer(tk.Tk):
         self.grid_rowconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
         self.grid_rowconfigure(3, weight=1)
+        self.grid_rowconfigure(4, weight=1)
 
         # Widgets
         self.label = ttk.Label(self, text="Enter edges (EX: \"A -> B, B -> C\"):")
@@ -40,7 +52,10 @@ class NetworkVisualizer(tk.Tk):
         self.remove_edges_button.grid(row=2, column=1, sticky='w')
 
         self.help_button = ttk.Button(self, text="Help", command=self.show_help)
-        self.help_button.grid(row=3, column=0, columnspan=2)
+        self.help_button.grid(row=3, column=0, sticky='e')
+
+        self.save_button = ttk.Button(self, text="Save Graph", command=self.save_graph)
+        self.save_button.grid(row=3, column=1, sticky='w')
 
     def initialize_blank_figure(self):
         self.figure = mplfig.Figure()
